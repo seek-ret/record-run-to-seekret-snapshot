@@ -1,1 +1,1 @@
-# record-run-to-seekret-snapshot
+# record-run-to-snapshot-action
