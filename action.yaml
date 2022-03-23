@@ -1,0 +1,48 @@
+name: 'Record action run to Seekret snapshot'
+description: 'Create a Seekret snapshot from a Github action run'
+
+inputs:
+  client_id:
+    description: 'Client ID'
+    required: true
+  client_secret:
+    description: 'Client secret'
+    required: true
+  workspace:
+    description: 'Workspace'
+    required: true
+  anonymization:
+    description: 'Should we anonymize traffic ("true" or "false")'
+    required: false
+    default: "true"
+  auth_url:
+    description: 'Auth URL'
+    required: false
+  sniffer_image_tag:
+    description: 'Image tag of the sniffer to use'
+    required: true
+    default: "dev"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Seekret CLI
+      shell: bash
+      run: |
+        curl -L https://github.com/seek-ret/installation/releases/download/0.21.1/install-seekret-linux-x86_64.sh | sh
+        echo "~/.seekret" >> $GITHUB_PATH
+
+    - name: Generate session token
+      shell: bash
+      run: |
+        echo ::set-output name=session_token::"$(~/seekret generate-session-token snapshot)"
+
+    - name: Run sniffer docker
+      uses: seek-ret/seekret-sniffer-action@main
+      with:
+        client_id: ${{ github.event.inputs.client_id }}
+        client_secret: ${{ github.event.inputs.client_secret }}
+        workspace: ${{ github.event.inputs.workspace }}
+        anonymization: ${{ github.event.inputs.anonymization }}
+        auth_url: ${{ github.event.inputs.auth_url }}
+        session_token: ${{ steps.vars.outputs.session_token }}
