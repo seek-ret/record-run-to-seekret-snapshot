@@ -34,7 +34,7 @@ runs:
     - name: Generate session token
       shell: bash
       run: |
-        ~/.seekret/seekret init -w {{ github.event.inputs.workspace }} --client-id {{ github.event.inputs.client_id }} --client-secret {{ github.event.inputs.client_secret }}
+        ~/.seekret/seekret init -w ${{ github.event.inputs.workspace }} --client-id ${{ github.event.inputs.client_id }} --client-secret ${{ github.event.inputs.client_secret }}
         echo ::set-output name=session_token::"$(~/.seekret/seekret generate-session-token snapshot)"
 
     - name: Run sniffer docker
