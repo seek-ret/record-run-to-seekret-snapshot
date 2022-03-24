@@ -39,6 +39,7 @@ runs:
         ~/.seekret/seekret init -w ${{ inputs.workspace }} --client-id ${{ inputs.client_id }} --client-secret ${{ inputs.client_secret }}
         TOKEN=$(~/.seekret/seekret generate-session-token snapshot --plan $GITHUB_WORKFLOW --name $GITHUB_RUN_ID)
         echo ::set-output name=session_token::"$TOKEN"
+        echo Using session token "$TOKEN"
 
     - name: Run sniffer docker
       uses: seek-ret/seekret-sniffer-action@main
