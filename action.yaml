@@ -42,6 +42,8 @@ runs:
 
     - name: Generate session token
       shell: bash
+      env:
+        SEEKRET_API_GATEWAY_URL: ${{ inputs.auth_url }}
       run: |
         ~/.seekret/seekret init -w ${{ inputs.workspace }} --client-id ${{ inputs.client_id }} --client-secret ${{ inputs.client_secret }}
         echo ::set-output name=session_token::"$(~/.seekret/seekret generate-session-token snapshot)"
