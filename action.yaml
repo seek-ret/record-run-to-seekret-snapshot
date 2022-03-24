@@ -30,10 +30,10 @@ runs:
       shell: bash
       run: |
         env
-        echo ${{ github.event.inputs.workspace }}
-        echo ${{ github.event.inputs.client_id }}
-        echo ${{ github.event.inputs.client_secret }}
-        echo ${{ github.event.inputs }}
+        echo ${{ inputs.workspace }}
+        echo ${{ inputs.client_id }}
+        echo ${{ inputs.client_secret }}
+        echo ${{ inputs }}
 
     - name: Install Seekret CLI
       shell: bash
@@ -43,15 +43,15 @@ runs:
     - name: Generate session token
       shell: bash
       run: |
-        ~/.seekret/seekret init -w ${{ github.event.inputs.workspace }} --client-id ${{ github.event.inputs.client_id }} --client-secret ${{ github.event.inputs.client_secret }}
+        ~/.seekret/seekret init -w ${{ inputs.workspace }} --client-id ${{ inputs.client_id }} --client-secret ${{ inputs.client_secret }}
         echo ::set-output name=session_token::"$(~/.seekret/seekret generate-session-token snapshot)"
 
     - name: Run sniffer docker
       uses: seek-ret/seekret-sniffer-action@main
       with:
-        client_id: ${{ github.event.inputs.client_id }}
-        client_secret: ${{ github.event.inputs.client_secret }}
-        workspace: ${{ github.event.inputs.workspace }}
-        anonymization: ${{ github.event.inputs.anonymization }}
-        auth_url: ${{ github.event.inputs.auth_url }}
+        client_id: ${{ inputs.client_id }}
+        client_secret: ${{ inputs.client_secret }}
+        workspace: ${{ inputs.workspace }}
+        anonymization: ${{ inputs.anonymization }}
+        auth_url: ${{ inputs.auth_url }}
         session_token: ${{ steps.vars.outputs.session_token }}
