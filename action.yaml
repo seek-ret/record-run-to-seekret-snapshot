@@ -26,9 +26,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install Seekret CLI
+    - name: Debugggggg
       shell: bash
       run: |
+        env
         echo ${{ github.event.inputs.workspace }}
         echo ${{ github.event.inputs.client_id }}
         echo ${{ github.event.inputs.client_secret }}
