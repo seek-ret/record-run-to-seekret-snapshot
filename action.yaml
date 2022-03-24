@@ -22,6 +22,12 @@ inputs:
     description: 'Image tag of the sniffer to use'
     required: true
     default: "dev"
+  snapshot_plan:
+    description: 'Snapshot plan, if left empty the workflow name is used.'
+    required: false
+  snapshot_name:
+    description: 'Snapshot name, if left empty the runner id is used.'
+    required: false
 
 runs:
   using: "composite"
@@ -38,7 +44,9 @@ runs:
         SEEKRET_API_GATEWAY_URL: ${{ inputs.auth_url }}
       run: |
         ~/.seekret/seekret init -w ${{ inputs.workspace }} --client-id ${{ inputs.client_id }} --client-secret ${{ inputs.client_secret }}
-        TOKEN=$(~/.seekret/seekret generate-session-token snapshot --plan $GITHUB_WORKFLOW --name $GITHUB_RUN_ID)
+        PLAN=$(${{ inputs.snapshot_plan }} || $GITHUB_WORKFLOW)
+        NAME=$(${{ inputs.snapshot_name }} || $GITHUB_RUN_ID)
+        TOKEN=$(~/.seekret/seekret generate-session-token snapshot --plan $PLAN --name $NAME)
         echo ::set-output name=session_token::"$TOKEN"
         echo Using session token "$TOKEN"
 
