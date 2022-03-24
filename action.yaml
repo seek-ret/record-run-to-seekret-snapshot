@@ -29,6 +29,14 @@ runs:
     - name: Install Seekret CLI
       shell: bash
       run: |
+        echo ${{ github.event.inputs.workspace }}
+        echo ${{ github.event.inputs.client_id }}
+        echo ${{ github.event.inputs.client_secret }}
+        echo ${{ github.event.inputs }}
+
+    - name: Install Seekret CLI
+      shell: bash
+      run: |
         curl -L https://github.com/seek-ret/installation/releases/latest/download/install-seekret-linux-x86_64.sh | sh
 
     - name: Generate session token
