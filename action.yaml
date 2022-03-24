@@ -26,15 +26,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Debugggggg
-      shell: bash
-      run: |
-        env
-        echo ${{ inputs.workspace }}
-        echo ${{ inputs.client_id }}
-        echo ${{ inputs.client_secret }}
-        echo ${{ inputs }}
-
     - name: Install Seekret CLI
       shell: bash
       run: |
@@ -46,7 +37,8 @@ runs:
         SEEKRET_API_GATEWAY_URL: ${{ inputs.auth_url }}
       run: |
         ~/.seekret/seekret init -w ${{ inputs.workspace }} --client-id ${{ inputs.client_id }} --client-secret ${{ inputs.client_secret }}
-        echo ::set-output name=session_token::"$(~/.seekret/seekret generate-session-token snapshot)"
+        TOKEN=$(~/.seekret/seekret generate-session-token snapshot --plan $GITHUB_WORKFLOW)
+        echo ::set-output name=session_token::"$TOKEN"
 
     - name: Run sniffer docker
       uses: seek-ret/seekret-sniffer-action@main
