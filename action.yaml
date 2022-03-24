@@ -32,6 +32,7 @@ runs:
         curl -L https://github.com/seek-ret/installation/releases/latest/download/install-seekret-linux-x86_64.sh | sh
 
     - name: Generate session token
+      id: session_token
       shell: bash
       env:
         SEEKRET_API_GATEWAY_URL: ${{ inputs.auth_url }}
@@ -49,4 +50,4 @@ runs:
         workspace: ${{ inputs.workspace }}
         anonymization: ${{ inputs.anonymization }}
         auth_url: ${{ inputs.auth_url }}
-        session_token: ${{ outputs.session_token }}
+        session_token: ${{ steps.session_token.vars.outputs.session_token }}
