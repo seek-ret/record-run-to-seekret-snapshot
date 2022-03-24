@@ -37,7 +37,7 @@ runs:
         SEEKRET_API_GATEWAY_URL: ${{ inputs.auth_url }}
       run: |
         ~/.seekret/seekret init -w ${{ inputs.workspace }} --client-id ${{ inputs.client_id }} --client-secret ${{ inputs.client_secret }}
-        TOKEN=$(~/.seekret/seekret generate-session-token snapshot --plan $GITHUB_WORKFLOW)
+        TOKEN=$(~/.seekret/seekret generate-session-token snapshot --plan $GITHUB_WORKFLOW --name $GITHUB_RUN_ID)
         echo ::set-output name=session_token::"$TOKEN"
 
     - name: Run sniffer docker
