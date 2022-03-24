@@ -46,7 +46,7 @@ runs:
         ~/.seekret/seekret init -w ${{ inputs.workspace }} --client-id ${{ inputs.client_id }} --client-secret ${{ inputs.client_secret }}
         PLAN=${{ inputs.snapshot_plan }}
         NAME=${{ inputs.snapshot_name }}
-        TOKEN=$(~/.seekret/seekret generate-session-token snapshot --plan ${$PLAN:-$GITHUB_WORKFLOW} --name ${$NAME:-$GITHUB_RUN_ID})
+        TOKEN=$(~/.seekret/seekret generate-session-token snapshot --plan ${PLAN:-GITHUB_WORKFLOW} --name ${NAME:-GITHUB_RUN_ID})
         echo ::set-output name=session_token::"$TOKEN"
         echo Using session token "$TOKEN"
 
