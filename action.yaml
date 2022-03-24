@@ -49,4 +49,4 @@ runs:
         workspace: ${{ inputs.workspace }}
         anonymization: ${{ inputs.anonymization }}
         auth_url: ${{ inputs.auth_url }}
-        session_token: ${{ steps.vars.outputs.session_token }}
+        session_token: ${{ outputs.session_token }}
